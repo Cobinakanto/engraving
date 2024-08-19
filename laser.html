@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LASER - Production Web App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>LASER</h1>
+        <form id="laserForm">
+            <div class="form-group">
+                <label for="section">SECTION:</label>
+                <input type="text" id="section" name="section" required>
+            </div>
+            <div class="form-group">
+                <label for="shift">SHIFT:</label>
+                <select id="shift" name="shift" required>
+                    <option value="">Select Shift</option>
+                    <option value="Morning">Morning</option>
+                    <option value="Afternoon">Afternoon</option>
+                    <option value="Night">Night</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="start">START:</label>
+		<select id="start" name="start" required>
+                 
+                    <option value="">Select TIME</option>
+                    <option value="6AM">6AM</option>
+                    <option value="2PM">2PM</option>
+                    <option value="10PM">10PM</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="close">CLOSE:</label>
+                 <select id="close" name="close" required>
+                    <option value="">Select TIME</option>
+                    <option value="6AM">6AM</option>
+                    <option value="2PM">2PM</option>
+                    <option value="10PM">10PM</option>
+		<option value="10PM">6PM</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">DATE:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label for="week">WEEK:</label>
+                <input type="text" id="week" name="week" readonly>
+            </div>
+            <div class="form-group">
+                <label for="machine">MACHINE:</label>
+                <select id="machine" name="machine" required>
+                    <option value="">Select Machine</option>
+                    <option value="Endring Gluer">Endring Gluer</option>
+                    <option value="Laser">Laser</option>
+                    <option value="Coating">Coating</option>
+                    <option value="Stripping">Stripping</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="workers">WORKERS:</label>
+                <input type="text" id="workers" name="workers" required>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+        <a href="index.html" class="back-link">Back to Home</a>
+    </div>
+<script>
+      document.getElementById('laserForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        var data = Object.fromEntries(formData);
+        google.script.run.withSuccessHandler(function(result) {
+          alert('Form submitted successfully');
+          document.getElementById('myForm').reset();
+        }).submitForm(data);
+      });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
