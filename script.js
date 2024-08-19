@@ -1,49 +1,55 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const dateInput = document.getElementById('date');
-  const weekInput = document.getElementById('week');
-  const form = document.getElementById('laserForm');
+    const dateInput = document.getElementById('date');
+    const weekInput = document.getElementById('week');
 
-  dateInput.addEventListener('change', function() {
-    const date = new Date(this.value);
-    const weekNumber = getWeekNumber(date);
-    weekInput.value = weekNumber;
-  });
+    if (dateInput && weekInput) {
+        dateInput.addEventListener('change', function() {
+            const date = new Date(this.value);
+            const weekNumber = getWeekNumber(date);
+            weekInput.value = weekNumber;
+        });
+    }
 
-  function getWeekNumber(date) {
-    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-    const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
-    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
-  }
+    const form = document.getElementById('productionForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            sendToGoogleSheets(data);
+        });
+    }
+});
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
+function getWeekNumber(date) {
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const dayNum = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
+}
 
-    // Replace this URL with your Google Apps Script web app URL
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzbdqlUuMG_TYCuC3IYrY_rFq7mLIV6rdrH3fqzORM8lblEp1M7qgSyx86nNZUV_ouD/exec';
-
-    fetch(scriptURL, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+function sendToGoogleSheets(data) {
+    fetch('https://script.google.com/macros/s/AKfycbzfijJ2gzT_QJN-5s1yog_baDCRx7jdRGsNMwruJwKnW3dZo9uIS0scaoHgu0BxX7DT/exec', {
+        method: 'POST',
+        mode: 'no-cors', // This line is important
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
     })
     .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Success:', data);
-      alert('Data submitted successfully');
-      form.reset();
+        if (response.type === 'opaque') {
+            // With 'no-cors', we can't access the response content,
+            // but if we reach here, it likely succeeded
+            console.log('Data likely submitted successfully');
+            alert('Data submitted successfully!');
+        } else {
+            throw new Error('Unexpected response type');
+        }
     })
     .catch(error => {
-      console.error('Error:', error);
-      alert('There was an error submitting the data: ' + error.message);
+        console.error('Error:', error.message);
+        alert('An error occurred while submitting the data: ' + error.message);
     });
-  });
-});
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production Tracking - PAGENAME</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Production Tracking - PAGENAME</h1>
+    </header>
+    <div class="container">
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="stripping.html">STRIPPING</a>
+            <a href="coating.html">COATING</a>
+            <a href="endring.html">ENDRING</a>
+            <a href="laser.html">LASER</a>
+        </nav>
+        <main>
+            <h2>PAGENAME Data Entry</h2>
+            <form id="productionForm">
+                <div class="form-group">
+                    <label for="section">SECTION:</label>
+                    <input type="text" id="section" name="section" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="shift">SHIFT:</label>
+                    <select id="shift" name="shift" required>
+                        <option value="morning">Morning</option>
+                        <option value="afternoon">Afternoon</option>
+                        <option value="night">Night</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="startTime">START TIME:</label>
+                    <select id="startTime" name="startTime" required>
+                        <option value="6AM">6 AM</option>
+                        <option value="2PM">2 PM</option>
+                        <option value="10PM">10 PM</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="closeTime">CLOSE TIME:</label>
+                    <select id="closeTime" name="closeTime" required>
+                        <option value="6AM">6 AM</option>
+                        <option value="2PM">2 PM</option>
+                        <option value="6PM">6 PM</option>
+                        <option value="10PM">10 PM</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">DATE:</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="week">WEEK:</label>
+                    <input type="text" id="week" name="week" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="screensDone">SCREENS DONE:</label>
+                    <input type="number" id="screensDone" name="screensDone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="downtime">DOWNTIME:</label>
+                    <input type="number" id="downtime" name="downtime" required>
+                </div>
+
+                <button type="submit">Submit</button>
+            </form>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
